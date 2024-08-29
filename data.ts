@@ -1,4 +1,4 @@
-export const photos = [
+export const photos: Photo[] = [
   { id: 1, image: require('./assets/photos/image-1.jpg') },
   { id: 2, image: require('./assets/photos/image-2.jpg') },
   { id: 3, image: require('./assets/photos/image-3.jpg') },
