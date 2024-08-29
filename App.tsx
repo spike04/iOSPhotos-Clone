@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar'
 import {
   FlatList,
   Image,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,9 +12,24 @@ import {
 } from 'react-native'
 import { photos } from './data'
 import Carousel from './components/Carousel'
+import { useState } from 'react'
 
 export default function App() {
   const { width, height } = useWindowDimensions()
+  const [headerCarouselPage, setHeaderCarouselPage] = useState(0)
+
+  const onHeaderCarouselScroll = (
+    e: NativeSyntheticEvent<NativeScrollEvent>,
+  ) => {
+    const currentPage = Math.max(
+      0,
+      Math.floor((e.nativeEvent.contentOffset.x + width / 2) / width),
+    )
+    if (currentPage !== headerCarouselPage) {
+      setHeaderCarouselPage(currentPage)
+    }
+  }
+
   return (
     <ScrollView style={styles.container}>
       {/* HEADER */}
@@ -23,6 +40,7 @@ export default function App() {
         snapToStart
         snapToInterval={width}
         decelerationRate="fast"
+        onScroll={onHeaderCarouselScroll}
       >
         <FlatList
           style={{ width }}
@@ -51,6 +69,31 @@ export default function App() {
           resizeMode="cover"
         />
       </ScrollView>
+
+      <View
+        style={{
+          padding: 10,
+          justifyContent: 'center',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 5,
+        }}
+      >
+        {Array(3)
+          .fill(0)
+          .map((item, index) => (
+            <View
+              key={index}
+              style={{
+                width: headerCarouselPage === index ? 10 : 8,
+                aspectRatio: 1,
+                backgroundColor:
+                  headerCarouselPage === index ? 'black' : 'gray',
+                borderRadius: headerCarouselPage === index ? 5 : 4,
+              }}
+            />
+          ))}
+      </View>
 
       <Carousel title="Albums" photos={photos.slice(0, 6)} />
       <Carousel title="People" photos={photos.slice(3, 6)} />
