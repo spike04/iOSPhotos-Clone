@@ -6,6 +6,7 @@ This project is a clone application of iOS Photos app created using Expo + React
 
 <p>
   <img src="./screenshots/1.png" width="240" style="padding: 10px" />
+  <img src="./screenshots/2.png" width="240" style="padding: 10px" />
 </p>
 
 **_As the project progresses, more screenshots will be added to the project_**
